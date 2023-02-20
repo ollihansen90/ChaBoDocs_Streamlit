@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import json
+import json, os
 
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
@@ -12,21 +12,21 @@ from nltk.stem.lancaster import LancasterStemmer
 from stopwords import worte
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_resource#()#(suppress_st_warning=True)
 def download_punkt():
     nltk.download("punkt")
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache_data#()#(suppress_st_warning=True)
 def load_data_from_json():
     # st.write("Loading data from json")
-    with open("chabodoc/intents.json") as file:
+    with open("../intents.json") as file:
         data = json.load(file)
     return data
 
 
-@st.cache(suppress_st_warning=True)
-def prepare_data(STEMMER, data):
+@st.cache_resource#()#(suppress_st_warning=True)
+def prepare_data(_STEMMER, data):
     # st.write("Prepare data")
     words = []  # Wörter, die der Chatbot erkennen können soll
     labels = []  # zugehörige Labels (siehe Output unten)
@@ -48,7 +48,7 @@ def prepare_data(STEMMER, data):
     words = [
         w for w in words if not w in worte
     ]  # Schmeiße Stopwords raus (sowas wie "als" oder "habe"), die irrelevant für die Klassifizierung sind
-    words = [STEMMER.stem(w.lower()) for w in words if w != "?"]
+    words = [_STEMMER.stem(w.lower()) for w in words if w != "?"]
     words = sorted(list(set(words)))
     labels = sorted(labels)
 
@@ -120,3 +120,4 @@ def app():
         st.markdown("**Wörter an den Indizes mit Wert 1: **")
         st.code(indices_words)
 
+app()
