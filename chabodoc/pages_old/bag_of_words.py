@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import json, os
+import json
 
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
@@ -12,20 +12,20 @@ from nltk.stem.lancaster import LancasterStemmer
 from stopwords import worte
 
 
-@st.cache_resource#()#(suppress_st_warning=True)
+@st.cache_resource#(suppress_st_warning=True)
 def download_punkt():
     nltk.download("punkt")
 
 
-@st.cache_data#()#(suppress_st_warning=True)
+@st.cache_data#(suppress_st_warning=True)
 def load_data_from_json():
     # st.write("Loading data from json")
-    with open("../intents.json") as file:
+    with open("intents.json") as file:
         data = json.load(file)
     return data
 
 
-@st.cache_resource#()#(suppress_st_warning=True)
+@st.cache_resource#(suppress_st_warning=True)
 def prepare_data(_STEMMER, data):
     # st.write("Prepare data")
     words = []  # Wörter, die der Chatbot erkennen können soll
@@ -120,4 +120,3 @@ def app():
         st.markdown("**Wörter an den Indizes mit Wert 1: **")
         st.code(indices_words)
 
-app()
