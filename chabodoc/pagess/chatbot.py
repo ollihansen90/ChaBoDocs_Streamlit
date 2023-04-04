@@ -114,7 +114,7 @@ def predict(STEMMER, message, model, words, labels, data, device):
 
 
 def app():
-    st.markdown("## 2. ChatBot")
+    st.markdown("## ChatBot")
 
     st.markdown("""Hier kannst du mit **Melinda** chatten.""")
 
